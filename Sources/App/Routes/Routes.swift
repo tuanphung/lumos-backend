@@ -1,10 +1,10 @@
 import Vapor
 
+let taskController = TaskController()
+
 extension Droplet {
     func setupRoutes() throws {
-        post("task-reminder/receiver") { req in
-            return "I'm your task-reminder!"
-        }
+        post("task-reminder/receiver", handler: taskController.slackReceiver)
 
         get("hello") { req in
             var json = JSON()
@@ -25,5 +25,6 @@ extension Droplet {
         get("description") { req in return req.description }
         
         try resource("posts", PostController.self)
+        try resource("tasks", TaskController.self)
     }
 }

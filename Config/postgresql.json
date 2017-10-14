@@ -1,0 +1,7 @@
+{
+    "hostname": "10.190.0.31",
+    "user": "tuan",
+    "password": "123123",
+    "database": "task_assistant",
+    "port": 5432
+}
