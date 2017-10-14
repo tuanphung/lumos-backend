@@ -2,6 +2,10 @@ import Vapor
 
 extension Droplet {
     func setupRoutes() throws {
+        post("task-reminder/receiver") { req in
+            return "I'm your task-reminder!"
+        }
+
         get("hello") { req in
             var json = JSON()
             try json.set("hello", "world")
