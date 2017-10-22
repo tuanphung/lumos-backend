@@ -1,7 +1,7 @@
 {
-    "hostname": "10.190.0.31",
+    "hostname": "lumosdbinstance.ce14jhh5iwkx.ap-southeast-1.rds.amazonaws.com",
     "user": "tuan",
-    "password": "123123",
-    "database": "task_assistant",
+    "password": "123QWEasd",
+    "database": "lumos",
     "port": 5432
 }
