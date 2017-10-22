@@ -1,5 +1,5 @@
 {
-    "hostname": "lumosdbinstance.ce14jhh5iwkx.ap-southeast-1.rds.amazonaws.com",
+    "hostname": "lumos.c53d6cp497bs.us-east-1.rds.amazonaws.com",
     "user": "tuan",
     "password": "123QWEasd",
     "database": "lumos",
