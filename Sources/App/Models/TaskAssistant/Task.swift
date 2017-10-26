@@ -66,6 +66,13 @@ final class Task: Model {
         try row.set(Task.Keys.lastModified, lastModified)
         return row
     }
+    
+    func makeSlackAttachment() throws -> JSON {
+        var json = JSON()
+        try json.set("text", content)
+        try json.set("color", "#36a64f")
+        return json
+    }
 }
 
 // MARK: Fluent Preparation

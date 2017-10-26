@@ -34,10 +34,15 @@ final class TaskController {
             throw TaskError.generic
         }
         
-        return try Task.makeQuery().filter(Task.Keys.creatorID, .equals, user.id).all().makeJSON()
+        let tasks = try Task.makeQuery().filter(Task.Keys.creatorID, .equals, user.id).all()
+        
+        var json = JSON()
+        let attachments = try tasks.map { return try $0.makeSlackAttachment() }
+        try json.set("attachments", attachments)
+        return json
     }
     
-    func addTask(slashCommand: SlackSlashCommand) throws -> Task {
+    func addTask(slashCommand: SlackSlashCommand) throws -> ResponseRepresentable {
         let user = try User(slackUser: slashCommand.slackUser()).createUserIfNotExist()
         
         guard let userID = user.id?.int else {
@@ -47,7 +52,11 @@ final class TaskController {
         let content = slashCommand.content
         let task = Task(content: content, status: .ToDo, creatorID: userID)
         try task.save()
-        return task
+        
+        var json = JSON()
+        let attachments = try [task].map { return try $0.makeSlackAttachment() }
+        try json.set("attachments", attachments)
+        return json
     }
     
     func assignTask(slashCommand: SlackSlashCommand) throws -> Task {
