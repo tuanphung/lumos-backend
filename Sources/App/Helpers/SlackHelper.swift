@@ -15,7 +15,7 @@ import Vapor
 //trigger_id=13345224609.738474920.8088930838d88f008e0
 
 enum SlackSubCommand {
-    case list, add, assign, unknown
+    case list, add, delete, assign, unknown
 }
 
 final class SlackSlashCommand: JSONConvertible {
@@ -127,6 +127,8 @@ final class SlackSlashCommand: JSONConvertible {
             return .list
         case "add":
             return .add
+        case "delete":
+            return .delete
         case "assign":
             return .assign
         default:
@@ -142,6 +144,8 @@ final class SlackSlashCommand: JSONConvertible {
             offset = 4
         case .add:
             offset = 3
+        case .delete:
+            offset = 6
         case .assign:
             offset = 6
         default:

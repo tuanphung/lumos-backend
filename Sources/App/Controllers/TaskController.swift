@@ -20,6 +20,8 @@ final class TaskController {
             return try getTasks(slashCommand: slashCommand)
         case .add:
             return try addTask(slashCommand: slashCommand)
+        case .delete:
+            return try deleteTask(slashCommand: slashCommand)
         case .assign:
             return try assignTask(slashCommand: slashCommand)
         default:
@@ -57,6 +59,29 @@ final class TaskController {
         let attachments = try [task].map { return try $0.makeSlackAttachment() }
         try json.set("attachments", attachments)
         return json
+    }
+    
+    func deleteTask(slashCommand: SlackSlashCommand) throws -> ResponseRepresentable {
+        let user = try User(slackUser: slashCommand.slackUser()).createUserIfNotExist()
+        
+        guard let userID = user.id?.int else {
+            throw TaskError.invalidCreator
+        }
+        
+        guard let taskID = slashCommand.content.int else {
+            throw TaskError.invalidCreator
+        }
+        
+        let tasks = try Task.makeQuery()
+            .filter(Task.Keys.creatorID, .equals, userID)
+            .filter(Task.Keys.id, .equals, taskID)
+            .all()
+        
+        try tasks.forEach { (task) in
+            try task.delete()
+        }
+        
+        return "Deleted"
     }
     
     func assignTask(slashCommand: SlackSlashCommand) throws -> Task {

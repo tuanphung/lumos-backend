@@ -69,7 +69,7 @@ final class Task: Model {
     
     func makeSlackAttachment() throws -> JSON {
         var json = JSON()
-        try json.set("text", content)
+        try json.set("text", "\(id!.int!) - \(content)")
         try json.set("color", "#36a64f")
         return json
     }
